@@ -7,7 +7,7 @@ import argparse, hashlib, json, sys, urllib.request
 
 root = Path(__file__).resolve().parent
 manifest = json.loads((root / 'assets-manifest.json').read_text(encoding='utf-8'))
-base_url = 'https://healthify-mobile-test.vercel.app/'
+base_url = 'https://healthify-demo.vercel.app/'
 parser = argparse.ArgumentParser()
 parser.add_argument('--verify-only',action='store_true',help='Check local assets without downloading')
 args = parser.parse_args()
