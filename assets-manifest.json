@@ -1,0 +1,42 @@
+{
+  "result-background.svg": {
+    "sha1": "94a671aabeb09f25acea1ee96f7bcd2d4a1adeff",
+    "bytes": 6499
+  },
+  "result-basket.svg": {
+    "sha1": "77109772bfa2e6061f5ba135a9af00d080f15ce5",
+    "bytes": 3871
+  },
+  "result-nutriscore.svg": {
+    "sha1": "46b03c7b1f2c16e26d30e7fb651a1b1c9a50c864",
+    "bytes": 11426
+  },
+  "result-vegetables.svg": {
+    "sha1": "6f2865ddb54924a19ee8a3faecb336b64523ae5a",
+    "bytes": 4402
+  },
+  "star-animation.gif": {
+    "sha1": "8ee051e0fead6a921aaf8bea3182a7b31cb739de",
+    "bytes": 133838
+  },
+  "nutri-score-A.svg": {
+    "sha1": "a2dfc2a15a5bc7b2df080b6f21b4e6e84a762567",
+    "bytes": 11223
+  },
+  "nutri-score-B.svg": {
+    "sha1": "ccc0422c7bc2edbd54920600ba3790ae1f2fe4f6",
+    "bytes": 11471
+  },
+  "nutri-score-C.svg": {
+    "sha1": "0a37176f80b05aadabbb49f06dd5def31ea32bec",
+    "bytes": 11467
+  },
+  "nutri-score-D.svg": {
+    "sha1": "465aba3fb81937173915edf936d0b23b01f9456d",
+    "bytes": 11441
+  },
+  "nutri-score-E.svg": {
+    "sha1": "91276077014970f94ac64d3101ae2a935bedf2dd",
+    "bytes": 11201
+  }
+}
