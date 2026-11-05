@@ -1,0 +1,754 @@
+
+:root{--orange:#f57900;--orange-deep:#eb7000;--orange-soft:#fcf0e5;--green:#009f93;--green-deep:#00897d;--mint:#e2f6f4;--ink:#202a3b;--grey:#798496;--line:#e9ebef;--red:#b72f49;--pink:#fff0f4;--ease:cubic-bezier(.22,1,.36,1);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#edf1f1}button{font:inherit;cursor:pointer}button:disabled{cursor:default}button:focus-visible{outline:3px solid #1c98f6;outline-offset:2px}svg{display:block;flex-shrink:0}h1,h2,h3,p{margin:0}.outer{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px}.device{position:relative;width:385px;height:min(822px,calc(100dvh - 48px));min-height:665px;background:#fff;border:5px solid #232830;border-radius:38px;overflow:hidden;box-shadow:0 24px 70px #071e2531,0 2px 5px #17212c22;isolation:isolate}.device:after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 1px #fff6;border-radius:32px;z-index:60}.screen{height:100%;display:flex;flex-direction:column;position:relative;overflow:hidden;background:#fff}.status{height:44px;flex:0 0 44px;padding:14px 27px 0 31px;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:740;color:var(--ink);background:#fff;position:relative;z-index:7}.status.orange{background:var(--orange);color:#fff}.status.teal{background:#05a79d;color:white}.sys-icons{display:flex;gap:5px;align-items:center}.homebar{position:absolute;bottom:8px;left:50%;width:112px;height:5px;transform:translateX(-50%);border-radius:8px;background:#10161b;pointer-events:none;z-index:55}.homebar.light{background:#fff}.svg-icon{stroke-width:1.8}
+/* List, following the recording */
+.list-screen{flex:1;min-height:0;display:flex;flex-direction:column}.orange-toolbar{background:var(--orange);color:white;display:flex;align-items:center;padding:10px 13px 12px;gap:9px;min-height:52px}.orange-toolbar h1{font-size:18px;font-weight:660;flex:1;letter-spacing:-.02em}.head-icon{background:transparent;border:none;color:inherit;padding:3px}.list-locations{display:grid;grid-template-columns:1fr 1fr;background:#fff;border-bottom:1px solid #edf0f1;height:70px;flex:none}.list-location{display:grid;place-items:center;align-content:center;gap:8px;font-size:12px;color:#485568;border-right:1px solid #ebeff1}.location-tile{height:11px;width:17px;transform:skew(-20deg);background:#de6506}.location-circle{border-radius:50%;background:#1c6e95;color:#fff;padding:3px}.list-sort{flex:0 0 50px;display:flex;justify-content:space-between;align-items:center;color:#6b7a8a;padding:0 14px;font-size:12px}.list-sort b{color:var(--orange);font-size:11px}.list-products{min-height:0;flex:1;overflow:auto;scrollbar-width:none}.list-products::-webkit-scrollbar{display:none}.list-line{border-bottom:1px solid #eceff3;display:grid;grid-template-columns:24px 77px minmax(0,1fr) 35px;align-items:center;column-gap:8px;padding:14px 12px 17px;min-height:147px;position:relative}.list-line.highlight{animation:lineflash 1.2s ease-out both}@keyframes lineflash{0%{background:#bbf3e8}100%{background:white}}.list-check{width:19px;height:19px;border:1.5px solid #aab5c1;border-radius:5px}.list-line img{height:79px;width:77px;object-fit:contain}.list-name{font-size:11px;font-weight:590;line-height:1.5;min-height:36px}.list-deal{background:#fff0f2;color:#ba4254;border-radius:7px;padding:4px 5px;font-size:10px;line-height:1.3;margin-top:7px}.list-cost{font-size:22px;line-height:1;margin-top:7px;font-weight:800;letter-spacing:-.06em}.list-cost sup{font-size:10px;letter-spacing:0;font-weight:650;vertical-align:super}.list-cost small{font-size:10px;color:#7e8999;font-weight:450;letter-spacing:0}.list-heart{align-self:start;color:#748296;border:0;background:transparent;padding:4px}.count-box{color:var(--orange);border:1px solid var(--orange);font-size:10px;padding:7px 3px;border-radius:5px;white-space:nowrap;align-self:end;justify-self:end;margin-bottom:5px}.list-bottom{height:63px;flex:none;border-top:1px solid #f0f1f3;display:flex;align-items:center;justify-content:space-between;padding:7px 10px 10px;gap:7px;background:white}.total{font-size:13px;font-weight:800;white-space:nowrap}.total small{font-size:9px;color:#748191}.ai-launch{display:grid;place-items:center;height:38px;width:38px;background:#fff;border:1.4px solid #00a99c;border-radius:8px;box-shadow:0 0 0 4px #e2f7f4;color:var(--green);transition:transform .25s var(--ease)}.ai-launch:active{transform:scale(.83)}.add-list{font-size:10px;padding:12px 14px;background:var(--orange);color:white;border:0;border-radius:7px;font-weight:750;white-space:nowrap}.app-nav{height:49px;flex:none;display:flex;align-items:center;justify-content:space-around;background:#fff;border-top:1px solid #eceef2}.nav-item{display:grid;justify-items:center;gap:3px;font-size:8px;color:#9ca3ac}.nav-item.on{color:var(--orange)}
+/* Assistant menu */
+.dim{position:absolute;inset:0;background:#0005;z-index:20;animation:fade .25s both}.assistant-sheet{position:absolute;left:0;right:0;bottom:0;background:white;z-index:21;border-radius:16px 16px 0 0;padding:24px 14px 46px;box-shadow:0 -10px 35px #172f3f22;animation:slideup .42s var(--ease)}.sheet-title{display:flex;align-items:center;gap:10px;margin-bottom:14px}.sheet-title h2{flex:1;font-size:21px;font-weight:760;letter-spacing:-.035em}.sheet-close{background:none;border:0;padding:3px;color:var(--ink)}.assistant-sheet p{font-size:14px;line-height:1.6;margin-bottom:14px}.assist-option{display:flex;align-items:center;text-align:left;gap:12px;width:100%;padding:14px 12px;border:1px solid #eff1f3;background:#fff;border-radius:13px;box-shadow:0 4px 20px #0a1e2907}.assist-option:active{transform:scale(.985)}.assist-option-symbol{border-radius:9px;width:51px;height:51px;background:#dff5f2;color:#067c71;display:grid;place-items:center}.assist-option strong{display:block;font-size:16px}.assist-option small{display:block;color:#728093;line-height:1.4;font-size:12px;margin-top:4px}.assist-option>div:nth-child(2){flex:1}
+/* Brand illustration, multicolour outline */
+.brand-star{overflow:visible}.brand-star .star-core{transform-origin:50% 50%;animation:starfloat 2.5s ease-in-out infinite}.brand-star .glint{transform-origin:50% 50%;animation:blink 1.25s ease-in-out infinite alternate}.brand-star .glint.g2{animation-delay:.4s}.brand-star .glint.g3{animation-delay:.8s}@keyframes starfloat{50%{transform:translateY(-3px) rotate(5deg)}}@keyframes blink{from{opacity:.35;transform:scale(.75)}to{opacity:1;transform:scale(1.1)}}
+/* Thinking screen, measured against Figma node 807:5351 at 375 × 812 */
+.status.mint{background:#E5F7F5;color:#1B1F27}
+.scan{flex:1;min-height:0;position:relative;overflow:hidden;background:#E5F7F5;color:#1B1F27}
+.scan-content{position:absolute;top:130px;left:50%;transform:translateX(-50%);width:295px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.scan-aura{position:relative;width:205px;height:205px;flex:0 0 205px;background:#F2FBFA;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.scan-logo{display:flex;align-items:center;justify-content:center;width:205px;height:205px;position:relative}
+.scan-logo .brand-star{height:140px;width:140px;display:block;overflow:visible}
+.scan-logo .star-core{transform-origin:13px 17px;animation:healthify-star-jump 1.68s cubic-bezier(.25,.8,.3,1) infinite}
+.scan-logo .glint{transform-origin:center;animation:healthify-star-glint 1.68s ease-in-out infinite}
+.scan-logo .g2{animation-delay:.13s}
+.scan-text{margin-top:50px;width:295px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.scan h2{margin:0;width:295px;font-family:'Neue Haas Grotesk Display Pro','Arial',sans-serif;font-size:24px;font-weight:600;line-height:29px;letter-spacing:.48px;color:#1B1F27;text-align:center}
+.scan p{margin:0;width:295px;font-family:'Neue Haas Grotesk Display Pro','Arial',sans-serif;font-size:16px;font-weight:400;line-height:24px;letter-spacing:0;color:#1B1F27;text-align:center}
+/* The Xtra mark jumps and flips, with the two small stars following slightly later. */
+@keyframes healthify-star-jump{0%,100%{transform:translateY(0) rotate(0deg) scale(1)}22%{transform:translateY(-8px) rotate(-9deg) scale(1.03)}43%{transform:translateY(-7px) rotate(180deg) scale(1.04)}64%{transform:translateY(0) rotate(360deg) scale(.98)}78%{transform:translateY(1px) rotate(360deg) scale(1)}}
+@keyframes healthify-star-glint{0%,25%,100%{transform:translateY(0) scale(1);opacity:1}46%{transform:translateY(-5px) scale(1.10);opacity:.75}72%{transform:translateY(1px) scale(1);opacity:1}}
+@media(max-width:350px){.scan-content,.scan-text,.scan h2,.scan p{width:calc(100vw - 48px)}.scan h2{font-size:22px}}
+@media(max-height:650px){.scan-content{top:95px}}
+@media(prefers-reduced-motion:reduce){.scan-logo .star-core,.scan-logo .glint{animation:none!important}}
+/* Comparison */
+.compare{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff;position:relative}.cmp-head{flex:none;min-height:91px;padding:9px 15px 12px;display:flex;gap:12px;align-items:flex-start}.cmp-head-text{flex:1}.cmp-head h2{font-size:18px;font-weight:775;line-height:1.16;letter-spacing:-.03em;padding-top:2px}.cmp-head p{font-size:12px;margin-top:5px;color:#6d7789}.cmp-close{background:none;border:0;padding:3px;color:#30343b}.cmp-body{flex:1;position:relative;min-height:0;overflow:hidden;touch-action:pan-y}.cmp-carousel{height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 2px;will-change:transform;transform:translate3d(0,0,0)}.offer-card{background:white;border:1px solid #edf0f2;border-radius:11px;box-shadow:0 3px 9px #111d2c1b;overflow:hidden;position:relative;flex-shrink:0;min-height:0}.offer-card.alt{border:1.5px solid #21a99e;box-shadow:0 2px 5px #008f8180}.offer-card.selected{border:2px solid #008f86;box-shadow:0 0 0 1px #008f861c,0 3px 10px #003f3625}.offer-card.dimmed{opacity:.56}.offer-head{height:35px;display:flex;gap:11px;align-items:center;padding:0 16px;font-size:13px;font-weight:730}.offer-head.current{background:#fcf0e5;color:#cb740d}.offer-head.alternative{background:#dcf4f1;color:#008f84}.offer-head .selected-chip{background:#008c80;color:#fff;border-radius:4px;padding:3px 5px;display:flex;align-items:center;font-size:9px;margin-left:auto}.offer-content{height:186px;display:grid;grid-template-columns:104px minmax(0,1fr);align-items:start;gap:9px;padding:17px 12px 10px}.offer-photo-wrap{position:relative}.offer-photo{object-fit:contain;width:103px;height:103px}.snowflake{font-size:18px;position:absolute;top:-5px;left:0;color:#3f9cc6;filter:drop-shadow(0 1px 1px #fff);z-index:1}.offer-main{min-width:0}.offer-topline{display:flex;align-items:flex-start;gap:4px}.offer-title{font-size:12.4px;line-height:1.46;min-height:38px;font-weight:520;flex:1}.offer-heart{border:0;background:transparent;color:#8e9ba8;padding:1px;align-self:flex-start}.offer-deal{margin-top:12px;background:#fff0f4;color:#bf3850;border-radius:9px;padding:6px 6px 4px;font-size:10.5px;line-height:1.36}.offer-deal-line{display:flex;justify-content:space-between;gap:5px;font-weight:680}.offer-deal a{text-decoration:underline;color:#b93a53}.offer-price{margin-top:10px;display:flex;align-items:baseline;gap:5px}.offer-price strong{font-size:31px;font-weight:790;letter-spacing:-.09em;line-height:.98}.offer-price strong sup{font-size:12px;vertical-align:top;letter-spacing:0;position:relative;top:0}.offer-price span{font-size:11px}.offer-price small{font-size:11px;color:#778294;margin-left:10px}.connector{height:42px;display:flex;align-items:center;gap:8px;justify-content:center;flex-shrink:0}.connector:before,.connector:after{content:"";height:1px;background:#e9eaf0;flex:1;margin:0 15px}.connector span{width:25px;height:25px;background:#059e91;color:white;border-radius:100%;display:grid;place-items:center;box-shadow:0 2px 5px #00a19645;animation:arrowbob 2.3s ease-in-out infinite}@keyframes arrowbob{50%{transform:translateY(3px)}}.cmp-nav{height:65px;flex:0 0 65px;display:flex;align-items:flex-start;padding:0 18px 0;gap:10px}.nav-dots{display:flex;align-items:center;gap:7px;justify-content:center;flex:1}.nav-dot{width:7px;height:7px;border-radius:50%;background:#dfe3ec;border:0;padding:0;transition:width .2s,transform .2s,background .2s}.nav-dot.active{background:var(--orange);transform:scale(1.1)}.nav-dot.completed:not(.active){background:#ffd3a8}.slide-index{font-size:12px;font-weight:800;background:var(--orange);padding:6px 7px;color:white;border-radius:7px;min-width:31px;text-align:center;margin-left:11px;box-shadow:0 2px 4px #be550026}.show-all{display:flex;align-items:center;color:#c57620;border:0;background:transparent;gap:6px;font-size:12px;white-space:nowrap;font-weight:620;min-height:27px}.cmp-action-row{flex:0 0 105px;height:105px;border-top:1px solid #f0f1f3;display:flex;gap:9px;align-items:flex-start;padding:9px 13px 13px;background:white;box-shadow:0 -4px 13px #0e1e2906}.choose-btn{height:51px;border-radius:9px;font-size:14px;font-weight:750;transition:transform .16s,filter .16s}.choose-btn:active{transform:scale(.97);filter:brightness(.96)}.choose-btn.keep{width:34%;background:#fff;color:#d37c19;border:1px solid #eda24f}.choose-btn.swap{flex:1;border:0;background:var(--orange);color:white;display:flex;align-items:center;justify-content:center;gap:10px}.confirm-bar{position:absolute;z-index:9;top:0;left:0;right:0;background:#078e2a;color:white;min-height:39px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:12px;font-weight:730;box-shadow:0 3px 12px #0d7e2a26;animation:confirmIn .37s var(--ease) both}@keyframes confirmIn{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}.confirm-spark{position:absolute;width:85px;height:85px;top:59%;left:50%;pointer-events:none;z-index:15}.confirm-spark i{position:absolute;width:7px;height:12px;border-radius:3px;left:50%;top:50%;background:var(--orange);transform:rotate(var(--r)) translateY(-9px);animation:particle .55s ease-out both}@keyframes particle{to{transform:rotate(var(--r)) translateY(-52px);opacity:0}}.intro-mask{position:absolute;inset:0;background:#0009;z-index:24;display:grid;place-items:center}.intro-help{background:#e8faff;max-width:250px;font-size:12px;line-height:1.5;border:1px solid #c6e3ed;border-radius:10px;padding:13px 15px;box-shadow:0 12px 35px #0003;text-align:center;color:#34434d}.intro-help strong{display:block;margin-bottom:4px}.intro-help button{border:0;background:var(--green);color:white;border-radius:6px;padding:8px 17px;margin-top:10px;font-weight:720}
+/* 'Toon alle' overlay */
+.modal-dim{position:absolute;inset:0;background:#121d2d73;z-index:24;animation:fade .2s ease-out}.modal-sheet{position:absolute;bottom:0;left:0;right:0;background:white;border-radius:18px 18px 0 0;padding:15px 15px 35px;z-index:25;animation:slideup .38s var(--ease);box-shadow:0 -8px 22px #1020362b}.modal-grip{width:36px;height:4px;border-radius:8px;background:#d7dbe3;margin:0 auto 18px}.modal-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}.modal-heading h2{font-size:19px}.modal-heading button{background:none;border:0}.modal-sheet p{margin:4px 0 12px;font-size:12px;color:var(--grey)}.modal-item{width:100%;display:flex;align-items:center;gap:11px;border:1px solid #eceef1;border-radius:11px;padding:10px;background:white;text-align:left;margin:7px 0}.modal-item img{width:49px;height:49px;object-fit:contain}.modal-item div{flex:1;min-width:0}.modal-item strong{font-size:12px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.modal-item small{font-size:10px;color:var(--grey)}.modal-item .done{color:#099486}.modal-continue{width:100%;margin-top:12px;border:0;border-radius:9px;padding:13px;color:white;background:var(--orange);font-weight:750}
+/* Results */
+.summary{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff;position:relative}.summary-scroll{flex:1;overflow:auto;scrollbar-width:none;padding-bottom:24px}.summary-scroll::-webkit-scrollbar{display:none}.result-top{height:270px;position:relative;overflow:hidden;color:white;background:radial-gradient(circle at 50% 28%,#65d8cb 1%,#10b6a8 45%,#009d92 83%);text-align:center;padding:19px 17px 22px}.result-top:before{content:"";inset:-200px -90px 12px;position:absolute;background:repeating-conic-gradient(from 4deg at 50% 55%,#ffffff29 0 6deg,transparent 6deg 21deg);mask-image:radial-gradient(ellipse at center,#0008 0%,transparent 62%);pointer-events:none}.result-confetti{position:absolute;inset:0;pointer-events:none}.result-confetti i{position:absolute;left:var(--x);top:-12%;height:10px;width:5px;background:var(--c);opacity:.85;transform:rotate(var(--r));animation:rain 2.4s var(--d) ease-in both}@keyframes rain{to{top:115%;transform:rotate(550deg) translateX(var(--dx));opacity:0}}.result-close{position:absolute;right:14px;top:10px;background:#fff;border:0;border-radius:4px;color:#2c3640;padding:5px;z-index:5}.result-basket{width:126px;height:122px;position:relative;display:grid;place-items:center;margin:0 auto;filter:drop-shadow(0 8px 13px #00877c55);animation:basketPop .85s cubic-bezier(.15,1.48,.36,1) both}@keyframes basketPop{from{transform:translateY(60px) scale(.5) rotate(-15deg);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}.result-top h2{font-size:27px;letter-spacing:-.03em;font-weight:820;margin:2px 0 8px;position:relative}.result-top p{font-size:13px;line-height:1.42;font-weight:650;position:relative}.result-top small{display:block;font-size:12px;opacity:.85;margin-top:9px;position:relative}.details{border-radius:18px 18px 0 0;background:#f0fbfa;padding:29px 14px 18px;position:relative;margin-top:-6px}.details h3{font-size:18px;letter-spacing:-.035em}.details p{font-size:12px;color:#515d6e;margin-top:6px}.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.statcard{height:140px;border-radius:15px;background:white;box-shadow:0 4px 8px #28484e15;padding:15px 13px;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start}.statcard.replaced{background:linear-gradient(160deg,#e0f7f4 0%,#e0f7f4 48%,#fff 48%,#fff 100%)}.stat-illustration{color:var(--green);height:34px}.nutriband{font-size:8px;letter-spacing:-.04em;padding:3px;background:#fff;border-radius:4px;border:1px solid #ddd;font-weight:900;display:flex}.nutriband span{padding:3px;color:white}.statnumber{font-size:33px;font-weight:810;color:#079e93;line-height:1.1;margin-top:12px}.statdesc{font-size:12px;color:#6a7482;line-height:1.45;margin-top:5px}.changes{padding:20px 14px 12px}.changes h3{font-size:18px;margin-bottom:15px}.change-row{display:flex;align-items:center;gap:8px;min-height:76px;border-bottom:1px solid #ecedef}.change-row img{height:55px;width:48px;object-fit:contain}.change-row-name{font-size:10px;min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:670}.score{color:white;font-size:12px;font-weight:820;border-radius:9px;width:32px;height:32px;display:grid;place-items:center}.score.a{background:#1b824a}.score.b{background:#91b82c}.score.c{background:#ecc600}.score.d{background:#de7f1b}.score.e{background:#c93c35}.change-arrow{color:#91a0b2}.nochange{color:#8a96a3;font-size:10px;font-weight:690}.result-actions{flex:0 0 100px;display:flex;align-items:center;padding:12px 14px 29px;background:white;border-top:1px solid #e8ebef;box-shadow:0 -5px 15px #1627370c;z-index:4}.result-actions button{height:48px;width:100%;border:0;background:var(--orange);color:#fff;border-radius:9px;font-weight:760;font-size:13px}.result-actions button:active{transform:scale(.985)}
+@keyframes slideup{from{transform:translateY(90%)}to{transform:translateY(0)}}@keyframes fade{from{opacity:0}to{opacity:1}}
+@media(max-width:520px){html,body{background:#fff}.outer{padding:0;min-height:100dvh}.device{height:100dvh;min-height:0;width:100%;max-width:none;border:0;border-radius:0;box-shadow:none}.device:after{display:none}}
+@media(max-height:735px){.cmp-head{min-height:93px;padding:8px 13px}.offer-content{height:135px;padding:11px 10px 8px;grid-template-columns:92px minmax(0,1fr)}.offer-photo{height:92px;width:90px}.offer-deal{margin-top:6px}.offer-price{margin-top:5px}.connector{height:33px}.cmp-nav{height:55px;flex-basis:55px;padding-top:10px}.cmp-action-row{height:100px;flex-basis:100px}.offer-title{font-size:11.5px}.offer-head{height:33px}.result-top{height:270px}}
+@media(max-height:625px){.cmp-body{overflow-y:auto}.cmp-carousel{justify-content:flex-start}.offer-content{height:125px}.offer-price strong{font-size:25px}.offer-deal{font-size:9px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Gesture-driven paired cards. Preview reuses the real card markup, never a placeholder. */
+.cmp-body {touch-action:pan-y;cursor:grab;overscroll-behavior-x:contain;}
+.cmp-body.swipe-active {cursor:grabbing;}
+.cmp-body.swipe-active,.cmp-body.swipe-active * {user-select:none;-webkit-user-select:none;}
+.cmp-carousel {position:relative;z-index:1;backface-visibility:hidden;transform-origin:50% 50%;will-change:transform,opacity;}
+.cmp-carousel.swipe-preview {position:absolute;inset:0;z-index:2;height:100%;width:100%;margin:0;pointer-events:none;}
+.cmp-carousel.swipe-preview .offer-card {pointer-events:none;}
+@media (prefers-reduced-motion:reduce){.cmp-carousel,.cmp-carousel.swipe-preview{will-change:auto;}}
+
+/* Precision pass from Figma / Update List Assistent, frames 761:17883 and 761:19399. */
+:root{--orange:#fb8109;--orange-deep:#ee7606;--orange-soft:#fdf0e6;--green:#00a99c;--green-deep:#009d92;--mint:#e4f7f4;--ink:#1e2530;--grey:#8390a1;--line:#edf0f4}
+.cmp-head{padding-left:16px;padding-right:15px;gap:10px}
+.cmp-head h2{font-size:19px;line-height:1.15;letter-spacing:-.035em}
+.cmp-head p{font-size:13px;margin-top:5px;color:#53647c}
+.offer-card{border-radius:11px;box-shadow:0 4px 11px #192f4018}
+.offer-card.alt{border:2px solid #00a99f;box-shadow:0 3px 6px #00a99b20}
+.offer-head{font-size:13px;padding-left:16px;height:35px}
+.offer-head.current{background:#fff1e4;color:#fa7a00}
+.offer-head.alternative{background:#e1f6f3;color:#009e94}
+.offer-content{grid-template-columns:96px minmax(0,1fr);gap:8px;padding-left:20px;padding-right:12px;padding-top:18px}
+.offer-photo{width:90px;height:90px;object-fit:contain}
+.offer-title{font-size:13px;font-weight:430;line-height:1.5;color:#626468}
+.offer-heart{color:#7484a0}
+.offer-deal{background:#fff0f3;color:#cc2644;border-radius:11px;font-size:10.5px;margin-top:10px}
+.offer-price strong{color:#616161;font-weight:720}
+.offer-price span,.offer-price small{color:#85878a}
+.offer-card.orig.selected{border:2px solid #ff870c;box-shadow:0 3px 8px #f68a2d30}
+.offer-head.current .selected-chip{background:#fa8108}
+.offer-card.dimmed{opacity:.54}
+.offer-head .selected-chip{border-radius:4px;font-size:10px;padding:4px 6px}
+.connector span{background:#00a79c}
+.show-all{color:#9ca8be}
+.show-all.has-choices{color:#f47e00}
+.nav-dots{gap:7px}
+.cmp-nav{padding-left:17px;padding-right:18px}
+.choose-btn{font-size:14px}
+.choose-btn.keep{border-color:#fb7d00;color:#f47e00}
+.choose-btn.swap{background:#fa8109}
+.confirm-bar{background:#009b3d;font-size:14px;min-height:56px;justify-content:flex-start;padding-left:17px;font-weight:500;box-shadow:none}
+.intro-mask{background:rgba(0,0,0,.62);align-items:center}
+.swipe-training{display:grid;justify-items:center;gap:18px;transform:translateY(5px)}
+.swipe-training svg{overflow:visible;filter:drop-shadow(0 3px 4px #0003);animation:teachgesture 1.4s ease-in-out infinite}
+.intro-help{width:215px;max-width:215px;background:#e6faf9;border:0;border-radius:10px;color:#314a62;font-size:14px;line-height:1.65;padding:14px 16px;box-shadow:0 8px 30px #001e2033;text-align:left}
+@keyframes teachgesture{0%,100%{transform:translateX(-8px) rotate(-5deg)}50%{transform:translateX(8px) rotate(5deg)}}
+.result-top h2{letter-spacing:-.04em}
+/* Keep the Figma baseline on 375x812 while preserving mobile fluid layout. */
+@media(min-width:521px){.device{width:385px;height:min(822px,calc(100dvh - 48px))}}
+@media(max-height:735px){.offer-content{padding-left:14px;grid-template-columns:86px minmax(0,1fr)}.offer-photo{width:84px;height:84px}}
+
+/* Figma 761:17883 precision, unchanged swipe implementation */
+.cmp-carousel{padding-left:5px;padding-right:5px}
+.offer-content{grid-template-columns:96px minmax(0,1fr);gap:8px;padding-left:16px;padding-right:16px;height:184px}
+.offer-card.alt .offer-content{height:182px}
+.offer-photo{width:96px;height:96px}
+.assist-option-symbol{width:48px;height:48px;background:transparent;border-radius:10px;flex:0 0 48px}
+.assist-option-symbol svg{width:48px;height:48px}
+.cmp-head .brand-star{flex:none}
+.brand-star .star-core{animation:starfloat 2.5s ease-in-out infinite}
+.result-basket{transform-origin:50% 80%}
+@media(max-height:735px){.offer-content{height:140px;grid-template-columns:90px minmax(0,1fr);padding-top:11px;padding-left:14px}.offer-photo{width:88px;height:88px}.offer-card.alt .offer-content{height:140px}}
+
+/* Targeted refinement: Figma List view 761:19106. Do not change comparison/swipe styles. */
+:root{--orange:#f5820c}
+.status.orange{height:44px;flex:0 0 44px;background:#f5820c;padding-top:12px}
+.orange-toolbar{height:40px;min-height:40px;padding:0 15px;gap:10px}
+.orange-toolbar h1{font-size:18px;letter-spacing:-.02em;font-weight:670}
+.head-icon{display:grid;place-items:center;width:24px;height:30px;padding:0}
+.list-screen{background:#fff}
+.list-locations{height:65px;grid-template-columns:1fr 1fr}
+.list-location{gap:4px;font-size:14px;line-height:21px;padding:5px 0}
+.list-location .location-tile{width:17px;height:12px}
+.list-sort{height:51px;flex:0 0 51px;padding:0 16px;font-size:14px}
+.list-sort b{font-size:14px;font-weight:650;display:flex;align-items:center;gap:7px}
+.list-products{min-height:0;background:#fff}
+.list-line{height:155px;min-height:155px;display:block;padding:0;border-bottom:1px solid #f3f4fa;position:relative}
+.list-line:first-child{height:196px;min-height:196px}
+.list-line .list-check{position:absolute;width:24px;height:24px;left:16px;top:67px;border:1.6px solid #9faac0;border-radius:6px}
+.list-line:first-child .list-check{top:88px}
+.list-line img{position:absolute;left:44px;top:33px;width:96px;height:96px;object-fit:contain}
+.list-line:first-child img{top:52px}
+.list-line .list-content{display:contents}
+.list-line .list-name{position:absolute;left:148px;right:52px;top:17px;min-height:0;font-size:14px;line-height:21px;font-weight:450;letter-spacing:0;color:#636363}
+.list-line:first-child .list-name{top:19px}
+.list-line .list-heart{position:absolute;top:16px;right:16px;padding:0;width:24px;height:24px;color:#74829a}
+.list-line .list-deal{position:absolute;left:148px;right:16px;top:69px;min-height:27px;margin:0;padding:6px 8px;border-radius:8px;background:#fdf2f4;color:#cf001c;font-size:11px;line-height:15px}
+.list-line:first-child .list-deal{top:71px;min-height:56px;padding-top:7px}
+.list-line .list-cost{position:absolute;left:148px;top:109px;margin:0;font-size:29px;line-height:33px;letter-spacing:-.055em;font-weight:740;color:#626262}
+.list-line:first-child .list-cost{top:145px}
+.list-line .list-cost sup{font-size:13px;letter-spacing:-.04em;top:-.45em}
+.list-line .list-cost small{font-size:13px;font-weight:400;color:#a4a4a4;letter-spacing:0;margin-left:4px}
+.list-line .count-box{position:absolute;right:16px;bottom:17px;width:48px;height:40px;border-radius:10px;border:1px solid #f5820c;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:650;margin:0;padding:0}
+.list-line:first-child .count-box{bottom:16px}
+.list-bottom{flex:0 0 69px;height:69px;padding:7px 16px 10px;gap:16px}
+.total{font-size:20px;font-weight:680;letter-spacing:-.02em;color:#5d5d5d;flex:1}
+.total small{font-size:12px}
+.ai-launch{height:52px;width:52px;box-shadow:none;border:1px solid #f5820c;border-radius:13px;flex:0 0 52px;position:relative}
+.add-list{border-radius:12px;background:#f5820c;font-size:16px;height:52px;padding:0 22px;font-weight:650}
+.app-nav{height:96px;flex:0 0 96px;align-items:flex-start;padding-top:20px}
+.nav-item{font-size:11px;gap:6px}
+.nav-item svg{height:24px;width:24px}
+/* Smaller phones retain the relative Figma positions without clipping the tab bar. */
+@media(max-height:720px){.app-nav{height:64px;flex-basis:64px;padding-top:7px}.list-bottom{height:58px;flex-basis:58px}.list-line:not(:first-child){min-height:150px}}
+
+/* End screen refinement from Figma 761:19399. Comparison and swipe code is untouched. */
+.screen:has(> .summary) > .status.teal {position:absolute;top:0;left:0;right:0;z-index:19;background:transparent;color:white;pointer-events:none}
+.screen:has(> .summary) ~ .homebar.light {background:#11161a}
+.summary{height:100%;flex:1;display:flex;min-height:0;position:relative;background:#fff}
+.summary-scroll{padding-bottom:10px;overflow-y:auto;overflow-x:hidden;flex:1;scrollbar-width:none}
+.result-top{height:330px;min-height:330px;position:relative;padding:0;background:radial-gradient(ellipse 270px 236px at 50% 34%,#76D5CF 0%,#00AB9E 36%,#0CBEB1 73%,#00AB9E 100%);overflow:hidden}
+.result-top:before{display:none}
+.figma-exact-decoration{position:absolute;display:block;pointer-events:none;z-index:1}.figma-exact-decoration.sparkles{width:280px;height:123px;left:67px;top:39px}.figma-exact-decoration.confetti{width:307px;height:132px;left:34px;top:26px}.figma-exact-decoration.leaves{width:351px;height:266px;left:15px;top:15px}.figma-sunburst{position:absolute;left:50%;top:0;transform:translateX(-50%);width:100%;height:185px;z-index:0;pointer-events:none}
+.result-hero-glow{position:absolute;width:164px;height:164px;top:31px;left:50%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(229,247,245,.78),rgba(229,247,245,.4) 45%,transparent 72%);filter:blur(6px);pointer-events:none}
+.result-confetti{z-index:1;height:180px;overflow:hidden}
+.result-confetti i{opacity:.5;width:7px;height:9px;animation:rain 3s var(--d) ease-in both}
+.result-basket{position:absolute;z-index:2;top:66px;left:calc(50% - 56.5px);margin:0;width:113px;height:94px;display:block;filter:drop-shadow(0 5px 10px #007c7455);animation:figmaBasketPop .74s cubic-bezier(.2,1.15,.36,1) both}
+.result-basket img{display:block;width:113px;height:94px}
+@keyframes figmaBasketPop{from{transform:translateY(30px) scale(.6);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.result-top h2{position:absolute;z-index:3;top:182px;left:0;right:0;margin:0;color:#fff;font-size:31px;line-height:37px;letter-spacing:.45px;font-weight:700}
+.result-top p{position:absolute;z-index:3;top:222px;left:12px;right:12px;font-size:13.6px;line-height:16.55px;letter-spacing:.1px;font-weight:650}
+.result-top small{position:absolute;z-index:3;top:265px;left:0;right:0;margin:0;font-size:13.6px;line-height:20px;opacity:1;font-weight:400}
+.result-close{position:absolute;top:54px;right:16px;width:41px;height:41px;padding:8px;border:0;border-radius:4px;display:grid;place-items:center;background:#fff;color:#1b1f27;z-index:9}
+.details{position:relative;z-index:4;margin-top:-22px;height:248px;min-height:248px;background:#f2fbfa;border-radius:16px 16px 0 0;padding:30px 16px 12px}
+.details h3{font-size:18px;line-height:22px;letter-spacing:.36px;color:#4c4c4c;font-weight:650}
+.details p{font-size:14px;line-height:21px;color:#5d6473;margin:3px 0 0}
+.statgrid{display:grid;grid-template-columns:165px 165px;gap:12px;margin-top:7px}
+.statcard{width:165px;height:141px;border-radius:16px;background:#fff;box-shadow:0 3px 8px rgba(46,59,86,.1);padding:16px;gap:0;justify-content:flex-start}
+.statcard.replaced{background:linear-gradient(157deg,#e5f7f5 0%,#e5f7f5 50%,#fff 50.4%,#fff 100%)}
+.stat-illustration{height:32px;width:56px;display:flex;align-items:flex-start;justify-content:flex-start;margin:0;color:#00ab9e}
+.stat-illustration svg{width:31px;height:31px}
+.stat-illustration .nutriband{margin:0}
+.statnumber{font-size:32px;font-weight:700;line-height:38px;letter-spacing:.64px;color:#00ab9e;margin-top:6px}
+.statdesc{font-size:14px;line-height:21px;color:#63708a;margin-top:0;font-weight:400}
+.nutriband{position:relative;display:flex;align-items:flex-end;width:55px;height:31px;border:1px solid #e1e4e6;border-radius:4px;padding:0 2px 4px;box-shadow:0 1px 1px #0001;gap:0;font-size:9px;line-height:12px;font-weight:900;letter-spacing:0}
+.nutriband:before{content:"NUTRI-SCORE";position:absolute;top:2px;left:3px;color:#4a4a4a;font-size:5px;line-height:7px;letter-spacing:.03em;font-weight:800}
+.nutriband span{width:10px;height:12px;text-align:center;padding:0;color:white}
+.changes{padding:16px 16px 16px;position:relative;background:#fff}
+.changes h3{color:#34383d;line-height:22px;letter-spacing:.36px;font-size:18px;font-weight:650;margin:0 0 9px}
+.change-row{min-height:72px;height:72px;border-bottom:1px solid #f3f4fa;display:flex;align-items:center;gap:8px;margin:0 -16px;padding:0 16px}
+.change-row img{height:48px;width:48px;object-fit:contain;flex-shrink:0}
+.change-row-name{font-size:14px;line-height:21px;color:#2e3b56;font-weight:400;text-transform:none}
+.score{font-size:24px;border-radius:10px;width:33px;height:40px;flex:0 0 33px}
+.change-arrow svg{width:24px;height:24px}
+.result-actions{position:absolute;bottom:0;left:0;right:0;z-index:12;height:103px;display:flex;align-items:flex-start;padding:20px 16px 34px;background:#fff;border:0;box-shadow:0 -4px 14px #131c2220}
+.result-actions button{height:49px;border-radius:9px;font-size:14px;font-weight:650;background:#f5820c}
+@media(max-height:720px){.summary-scroll{padding-bottom:0}.result-actions{height:76px;padding:8px 16px 19px}}
+
+/* Presentation-only control. This sits outside the Figma product UI. */
+.demo-reset-rail{position:fixed;z-index:100;top:50%;left:calc(50% + 219px);transform:translateY(-50%)}
+.demo-reset{display:flex;align-items:center;justify-content:center;gap:9px;padding:12px 16px;border:1px solid #e1e6e9;border-radius:14px;background:#fff;color:#273744;box-shadow:0 5px 22px #16323a16;font-size:13px;font-weight:650;white-space:nowrap;cursor:pointer;transition:box-shadow .2s ease,transform .2s ease,background .2s ease}
+.demo-reset:hover{background:#f7fbfb;box-shadow:0 7px 25px #16323a24;transform:translateY(-2px)}
+.demo-reset:active{transform:scale(.97)}
+.demo-reset svg{width:19px;height:19px;fill:none;stroke:#078b82;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.demo-reset:focus-visible{outline:3px solid #219cf2;outline-offset:3px}
+@media(max-width:720px){.demo-reset-rail{left:auto;right:0;top:132px;transform:none}.demo-reset{border-radius:12px 0 0 12px;padding:10px 9px;gap:5px;font-size:11px;box-shadow:0 3px 12px #142a3030;background:#fffffff0}.demo-reset svg{width:16px;height:16px}}
+@media(prefers-reduced-motion:reduce){.demo-reset{transition:none}}
+
+/* Last screen: scroll the results behind the fixed Figma action dock.
+   Reserve the dock height below the final change row, for touch and wheel. */
+.summary-scroll{
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-bottom:calc(112px + env(safe-area-inset-bottom, 0px));
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+}
+.summary-scroll .changes{padding-bottom:0}
+@media(max-height:720px){
+  .summary-scroll{padding-bottom:calc(86px + env(safe-area-inset-bottom, 0px))}
+}
+/* Keep the external demo control compact on real phone widths. */
+@media(max-width:720px){
+  .demo-reset-rail{top:120px;right:0;left:auto;transform:none}
+  .demo-reset{height:39px;width:42px;padding:0;gap:0;border-right:0;border-radius:10px 0 0 10px;background:#fffffff0}
+  .demo-reset span{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .demo-reset svg{width:20px;height:20px}
+}
+
+/* Icon audit from Figma node 761:17882. Keep all established motion and layout unchanged. */
+.snowflake{font-size:0;top:-7px;left:-3px;filter:none;width:24px;height:24px}
+.snowflake svg{display:block;width:24px;height:24px}
+.location-tile{background:none;transform:none;display:grid;place-items:center;width:24px!important;height:24px!important}
+.location-tile svg{display:block;width:24px;height:24px}
+.location-circle{padding:0;background:transparent;display:grid;place-items:center;width:24px;height:24px}
+.location-circle svg{width:24px;height:24px}
+.list-sort b{display:flex;align-items:center;gap:6px}
+.nav-item svg{width:24px;height:24px}
+.nav-item:first-child svg{width:24px;height:24px}
+.total{display:flex;align-items:center;gap:5px}
+.total svg{flex:none;width:20px;height:20px}
+.offer-head .selected-chip svg{width:12px;height:12px}
+.show-all svg{width:18px;height:18px}
+.stat-illustration>svg{width:30px;height:30px}
+
+/* Bottom action dock and CLP tab bar: exact Figma frame 761:19123, 375 × 165. */
+.list-screen .list-bottom{
+  width:100%;height:69px;flex:0 0 69px;
+  padding:8px 16px 9px;
+  box-sizing:border-box;
+  gap:8px;
+  display:flex;align-items:center;justify-content:flex-start;
+  background:#fff;border-top:1px solid #ebedf5;
+  box-shadow:0 -2px 8px rgba(46,59,86,.12);
+  position:relative;z-index:2;
+}
+.list-screen .total{
+  height:46px;width:auto;flex:1 1 137px;min-width:0;
+  margin:0;display:flex;align-items:center;gap:8px;
+  position:relative;white-space:nowrap;
+  color:#5f5f5f;
+}
+.list-screen .total-value{
+  display:inline-block;font-size:20px;font-weight:650;
+  line-height:24px;letter-spacing:.4px;white-space:nowrap;
+}
+.list-screen .total-info{width:24px;height:24px;flex:0 0 24px;display:grid;place-items:center}
+.list-screen .total-info svg{width:24px;height:24px}
+.list-screen .total::after{
+  content:"";position:absolute;right:0;top:0;
+  width:1px;height:46px;background:#ebedf5;transform:translateX(-10px);
+}
+.list-screen .dock-actions{
+  display:flex;align-items:center;justify-content:flex-end;
+  gap:16px;width:198px;flex:0 0 198px;height:52px;
+}
+.list-screen .ai-launch{
+  display:flex;align-items:center;justify-content:center;
+  width:52px;height:52px;flex:0 0 52px;
+  padding:10px;border-radius:10px;border:1px solid transparent;
+  background:linear-gradient(#f2fbfa,#f2fbfa) padding-box,
+    linear-gradient(135deg,#e5391c 0%,#ffc928 25%,#40933e 50%,#2f63b7 74.519%,#4fc3e8 100%) border-box;
+  box-shadow:0 3px 45px rgba(46,59,86,.05),0 0 1px rgba(27,31,39,.15);
+  transition:transform .22s cubic-bezier(.22,1,.36,1);
+}
+.list-screen .ai-launch:active{transform:scale(.93)}
+.list-screen .ai-launch svg{width:30px;height:30px}
+.list-screen .add-list{
+  flex:0 0 130px;width:130px;height:52px;display:flex;
+  align-items:center;justify-content:center;gap:8px;
+  padding:0 16px;margin:0;border:0;
+  background:#f07e13;border-radius:10px;
+  color:#fff;font-size:16px;font-weight:650;line-height:24px;
+  white-space:nowrap;
+}
+.list-screen .add-list .fab-plus,.list-screen .add-list .fab-plus svg{
+  width:24px;height:24px;display:block;flex:0 0 24px;
+}
+.list-screen .app-nav{
+  box-sizing:border-box;width:100%;height:96px;flex:0 0 96px;
+  padding:20px 0 34px;margin:0;background:#fff;
+  border-top:1px solid #f3f4fa;
+  display:flex;align-items:flex-start;justify-content:space-between;
+}
+.list-screen .nav-item{
+  width:20%;min-width:0;height:42px;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  gap:4px;line-height:12px;font-size:10px;font-weight:400;
+  color:rgba(99,112,138,.8);
+}
+.list-screen .nav-item.on{color:#f07e13;font-weight:650}
+.list-screen .nav-item svg{display:block;width:24px;height:24px;flex:0 0 24px}
+.device:has(.list-screen) .homebar{width:134px;height:5px;bottom:8px;background:#000}
+@media(max-height:720px){
+  .list-screen .list-bottom{height:69px;flex-basis:69px;padding:8px 16px 9px}
+  .list-screen .app-nav{height:96px;flex-basis:96px;padding:20px 0 34px}
+}
+@media(max-width:360px){
+  .list-screen .list-bottom{padding-left:12px;padding-right:12px}
+  .list-screen .dock-actions{flex-basis:186px;width:186px;gap:12px}
+  .list-screen .add-list{flex-basis:122px;width:122px;font-size:14px}
+  .list-screen .total-value{font-size:17px}
+  .list-screen .total-info{width:20px;flex-basis:20px}
+  .list-screen .total-info svg{width:20px;height:20px}
+}
+
+/* Figma 761:18212 swipe gesture, exact original vector and original frame metrics. */
+.swipe-training{width:215px;height:224px;display:block;position:relative;justify-items:initial;gap:0;transform:none;flex:none}
+.swipe-training .figma-swipe-gesture{display:block;position:absolute;left:48px;top:0;width:119px;height:136px;filter:none;object-fit:fill;transform:translateX(0);animation:swipeGestureFloat 2s ease-in-out infinite;pointer-events:none;user-select:none}
+.swipe-training .intro-help{position:absolute;left:0;top:128px;width:215px;height:96px;min-height:96px;max-width:215px;background:#E5F7F5;border:0;border-radius:10px;box-shadow:none;color:#2E3B56;text-align:left;font-size:16px;font-weight:400;line-height:24px;letter-spacing:0;padding:12px}
+@keyframes swipeGestureFloat{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+@media(prefers-reduced-motion:reduce){.swipe-training .figma-swipe-gesture{animation:none}}
+
+/* Exact header layout from Figma 807:5664, preserving live prototype logic. */
+.screen:has(> .status.peach){background:linear-gradient(180deg,#fce5cf 0px,#f7be89 250px) no-repeat #fff}
+.status.peach{background:transparent;color:#1b1f27;padding-top:12px;z-index:9}
+.list-screen.figma-list{background:transparent;flex:1;min-height:0;display:flex;flex-direction:column}
+.figma-list .list-hero{height:68px;min-height:68px;flex:0 0 68px;position:relative;background:transparent;color:#1b1f27}
+.figma-list .hero-left{position:absolute;top:15px;left:16px;width:24px;height:24px;display:grid;place-items:center;background:transparent;color:#1b1f27;border:0;padding:0}
+.figma-list .colruyt-brand{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:110px;height:41px;display:flex;flex-direction:column;align-items:center;justify-content:space-between}
+.figma-list .colruyt-brandline{display:flex;align-items:center;justify-content:center;gap:4px;width:110px;height:31px}
+.figma-list .colruyt-brandline svg{width:34px;height:23px;flex:0 0 34px}
+.figma-list .colruyt-brandline strong{font-family:'Neue Haas Grotesk Display Pro',Arial,sans-serif;font-size:20px;font-weight:650;line-height:24px;letter-spacing:.4px;white-space:nowrap}
+.figma-list .colruyt-brand small{font-family:'Neue Haas Grotesk Display Pro',Arial,sans-serif;font-size:10px;font-weight:400;line-height:12px;white-space:nowrap;color:#48526d}
+.figma-list .hero-actions{position:absolute;right:16px;top:15px;display:flex;align-items:center;gap:16px}
+.figma-list .hero-action{display:grid;place-items:center;width:24px;height:24px;border:0;background:transparent;padding:0;color:#1b1f27}
+.figma-list .list-locations{height:64px;flex:0 0 64px;grid-template-columns:1fr 1fr;border-radius:12px 12px 0 0;border-bottom:1px solid #f3f4fa;background:#fff;overflow:hidden}
+.figma-list .list-location{height:64px;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;padding:8px 2px;font-size:14px;line-height:20px;color:#393d48;border-right:1px solid #f3f4fa;white-space:nowrap}
+.figma-list .list-location:last-child{border-right:0}
+.figma-list .list-location .location-tile{width:24px;height:24px;display:grid;place-items:center;transform:none;background:none}
+.figma-list .location-tile svg{width:20px;height:14px;transform:none}
+.figma-list .list-location .location-circle{padding:0;display:grid;place-items:center;background:#0786c6;width:20px;height:20px;border-radius:50%;color:#fff}
+.figma-list .list-location .location-circle svg{width:14px;height:14px}
+.figma-list .list-sort{height:52px;flex:0 0 52px;background:#fff;border-top:1px solid #f3f4fa;border-bottom:1px solid #f3f4fa;padding:0 16px;font-size:14px;color:#7c89a3}
+.figma-list .list-sort b{font-family:'Neue Haas Grotesk Display Pro',Arial,sans-serif;color:#f07e13;font-size:14px;line-height:20px;letter-spacing:.28px;gap:8px}
+.figma-list .list-products{background:#fff;min-height:0;flex:1;overflow-y:auto}
+.figma-list .list-bottom{height:69px;flex:0 0 69px}
+.figma-list .app-nav{height:88px;flex:0 0 88px;padding:12px 0 34px;align-items:flex-start}
+.figma-list .nav-item{font-size:10px;line-height:12px;gap:4px}
+.figma-list .nav-item svg{height:24px;width:24px}
+.figma-list .hero-reset-menu{position:absolute;right:16px;top:48px;z-index:18;padding:5px;background:white;border:1px solid #e6e7ec;border-radius:10px;box-shadow:0 8px 20px #0002}
+.figma-list .hero-reset-menu button{padding:10px 14px;color:#1b1f27;font:500 14px Arial,sans-serif;border:0;background:#fff;border-radius:8px;white-space:nowrap}
+@media(max-width:720px){.demo-reset-rail{display:none!important}}
+@media(max-height:730px){.figma-list .app-nav{height:78px;flex-basis:78px;padding:7px 0 26px}.figma-list .list-bottom{height:64px;flex-basis:64px}}
+@media(max-height:625px){.figma-list .app-nav{height:70px;flex-basis:70px;padding:5px 0 22px}.figma-list .list-bottom{height:58px;flex-basis:58px}}
+
+
+/* Mobile Safari: use the real device status area, not a second 9:41 row. */
+@media (max-width:520px) {
+  html:has(.figma-list),body:has(.figma-list){background:#fff!important}
+  /* iOS 26: keep the top chrome peach while Safari's lower chrome samples white. */
+  body:has(.figma-list)::before{content:"";position:fixed;inset:0 0 auto 0;height:4px;background:#fce5cf;pointer-events:none;z-index:0}
+  .screen:has(>.status.peach){background:linear-gradient(180deg,#fce5cf 0px,#f7be89 206px) no-repeat #fff}
+  .screen>.status.peach{display:none!important}
+  /* Keep Figma logo/hero sizes; Safari supplies the actual status area above. */
+  .figma-list .app-nav{
+    height:64px!important;flex:0 0 64px!important;
+    padding:12px 0 0!important;border-top:0!important;
+    justify-content:space-between;align-items:flex-start
+  }
+  .device:has(.figma-list)>.homebar{display:none!important}
+  .figma-list .list-bottom{height:69px!important;flex:0 0 69px!important}
+  .figma-list .list-products{min-height:0}
+}
+
+/* Healthify mobile CTA alignment, 25 October 2026. Keep the button size and full swipe flow. */
+@media (max-width:520px) {
+  .compare .cmp-action-row {
+    padding-top:21px!important;
+    padding-bottom:1px!important;
+  }
+  /* Safari already draws its own bottom chrome, do not draw a second home indicator. */
+  .device:has(.compare)>.homebar{display:none!important}
+}
+
+/* Healthify 25 October 2026. Mobile visual corrections; keep all product, swipe and choice logic. */
+@media (max-width:520px) {
+  /* Continue the list's Figma peach gradient behind iOS top chrome. White at the bottom for Safari. */
+  html:has(.figma-list),body:has(.figma-list) {
+    background:linear-gradient(180deg,#fce5cf 0px,#f7be89 190px,#ffffff 250px) no-repeat fixed #fff!important;
+  }
+  .screen:has(>.status.peach) {
+    background:linear-gradient(180deg,#fce5cf 0px,#f7be89 250px) no-repeat #fff!important;
+  }
+  body:has(.figma-list)::before {
+    height:max(env(safe-area-inset-top,0px),4px)!important;
+    background:#fce5cf!important;
+  }
+  /* Safari already has a device clock, signal and battery. Hide the repeated mock status row. */
+  .screen:has(>.compare)>.status {display:none!important}
+  .compare .cmp-head h2 {color:#1b1f27!important}
+  .compare .cmp-head p {color:#565a60!important}
+  .compare .cmp-close {color:#1b1f27!important}
+  .compare .show-all {color:#888c95!important}
+  .compare .show-all.has-choices {color:#f47e00!important}
+  /* True horizontal centre across the viewport, not just the space before 'Toon alle'. */
+  .compare .cmp-nav {
+    position:relative;
+    box-sizing:border-box;
+    padding:12px 17px 0 17px!important;
+    align-items:flex-start;
+  }
+  .compare .nav-dots {
+    position:absolute;
+    top:12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:max-content;
+    flex:0 0 auto;
+    margin:0;
+    white-space:nowrap;
+  }
+  .compare .show-all {margin-left:auto;z-index:1}
+}
+
+/* Design alignment, Figma 807:5175 and 807:5664, 25 October 2026. */
+.assistant-sheet .assist-option{
+  appearance:none;-webkit-appearance:none;
+  color:#1b1f27!important;-webkit-text-fill-color:#1b1f27;
+  background:#fff;border:1px solid #f3f4fa;
+  min-height:100px;border-radius:8px;
+  padding:12px 16px;gap:12px;
+  box-shadow:0 3px 45px rgba(46,59,86,.05),0 0 1px rgba(27,31,39,.20);
+}
+.assistant-sheet .assist-option-symbol{
+  width:48px;height:48px;flex:0 0 48px;
+  display:grid;place-items:center;
+}
+.assistant-sheet .assist-option>div:nth-child(2){min-width:0}
+.assistant-sheet .assist-option strong{
+  color:#1b1f27!important;-webkit-text-fill-color:#1b1f27!important;
+  font-size:18px;font-weight:650;line-height:22px;letter-spacing:.36px;
+  text-decoration:none;
+}
+.assistant-sheet .assist-option small{
+  color:#63708a!important;-webkit-text-fill-color:#63708a!important;
+  font-size:14px;font-weight:400;line-height:21px;
+  margin-top:2px;
+}
+@media (max-width:520px){
+  html:has(.figma-list),body:has(.figma-list){
+    color-scheme:light;
+    background:linear-gradient(180deg,#fce5cf 0%,#f7be89 250px,#fff 251px) no-repeat fixed #fff!important;
+  }
+  /* A peach strip fills the page's upper safe area. Safari supplies the real clock. */
+  body:has(.figma-list)::before{height:max(env(safe-area-inset-top, 0px),4px)!important;background:#fce5cf!important}
+  .screen:has(>.status.peach){background:linear-gradient(180deg,#fce5cf 0px,#f7be89 250px) no-repeat #fff!important}
+  .screen>.status.peach{display:none!important}
+}
+
+/* 2026-10-25: live list header matched to reference IMG_0045(2).
+   Leave the assistant, product cards, pagination and CTA layouts untouched. */
+.figma-list .colruyt-brand small{color:#2e3b56;}
+.figma-list .hero-action.hero-qr{cursor:default;}
+.figma-list .hero-action.hero-qr svg{width:24px;height:24px;}
+.figma-list .hero-action.hero-more svg{width:24px;height:24px;}
+.figma-list .hero-action.hero-qr svg path,.figma-list .hero-action.hero-more svg circle{fill:#2e3b56!important;stroke:none;}
+@media(max-width:520px){
+  /* More space under the brand and icons, as in the reference image. */
+  .figma-list .list-hero{height:84px!important;min-height:84px!important;flex:0 0 84px!important;}
+  .figma-list .colruyt-brand{top:5px!important;width:122px;height:50px;}
+  .figma-list .colruyt-brandline{width:122px;height:31px;gap:5px;}
+  .figma-list .colruyt-brandline strong{color:#1b1f27;font-weight:650;}
+  .figma-list .colruyt-brand small{font-size:12px!important;line-height:16px!important;white-space:nowrap;}
+  .figma-list .hero-left{left:22px!important;top:18px!important;}
+  .figma-list .hero-actions{right:20px!important;top:18px!important;gap:16px!important;}
+  .figma-list .hero-action{width:24px!important;height:24px!important;color:#2e3b56!important;}
+  .figma-list .hero-reset-menu{top:50px!important;right:16px!important;}
+  /* Match the native iPhone safe-area shade above the header where Safari permits it. */
+  html:has(.figma-list){background-color:#fce5cf!important;}
+  body:has(.figma-list){background:linear-gradient(180deg,#fce5cf 0px,#f7be89 250px,#fff 251px) no-repeat fixed #fff!important;}
+  .screen:has(>.status.peach){background:linear-gradient(180deg,#fce5cf 0px,#f7be89 250px) no-repeat #fff!important;}
+  body:has(.figma-list)::before{background-color:#fce5cf!important;height:max(env(safe-area-inset-top,0px),4px)!important;}
+}
+
+/* iOS 26 Safari: initial status-bar color sampling must see peach in the root
+   before the list template is injected. The previous :has(.figma-list) rule
+   only started matching AFTER Safari had already chosen white for the chrome. */
+@media(max-width:520px){
+ html[data-healthify-page="list"],
+ body[data-healthify-page="list"]{
+   background-color:#fff!important;
+   background-image:linear-gradient(180deg,#fce5cf 0px,#f7be89 210px,#fff 265px)!important;
+   background-repeat:no-repeat!important;
+   background-attachment:fixed!important;
+   color-scheme:light!important;
+ }
+ body[data-healthify-page="list"] .outer,
+ body[data-healthify-page="list"] .device{
+   background-color:#fff!important;
+   background-image:linear-gradient(180deg,#fce5cf 0px,#f7be89 210px,#fff 265px)!important;
+   background-repeat:no-repeat!important;
+ }
+ body[data-healthify-page="list"] .screen{
+   background-color:#fff!important;
+   background-image:linear-gradient(180deg,#fce5cf 0px,#f7be89 210px,#fff 265px)!important;
+   background-repeat:no-repeat!important;
+ }
+ html[data-healthify-page="scan"],body[data-healthify-page="scan"] {background-color:#e5f7f5!important}
+ html[data-healthify-page="compare"],body[data-healthify-page="compare"],
+ html[data-healthify-page="summary"],body[data-healthify-page="summary"] {background-color:#fff!important}
+ body[data-healthify-page="list"] .figma-list .list-locations,
+ body[data-healthify-page="list"] .figma-list .app-nav{
+   background-color:#fff!important;
+ }
+}
+
+/* Safari 26 uses fixed edge elements to tint its top and bottom browser bars.
+   Separate 5 px real elements avoid one root background colouring both bars. */
+.safari-edge-tint{display:none;position:fixed;left:0;right:0;width:100%;height:6px;pointer-events:none;z-index:99999;}
+html[data-healthify-page="list"] .safari-edge-tint{display:block;}
+.safari-edge-top{top:0;background-color:#fce5cf!important;}
+.safari-edge-bottom{bottom:0;background-color:#fff!important;}
+@media(max-width:520px){
+  html[data-healthify-page="list"],body[data-healthify-page="list"]{
+    background:#fff!important;
+    background-image:none!important;
+    color-scheme:light!important;
+  }
+  body[data-healthify-page="list"] .outer,
+  body[data-healthify-page="list"] .device,
+  body[data-healthify-page="list"] .screen{
+    background:#fff!important;
+    background-image:none!important;
+  }
+  /* Colour only the actual Colruyt header, never the footer or list. */
+  .figma-list .list-hero{
+    background:linear-gradient(180deg,#fce5cf 0%,#f7be89 100%)!important;
+  }
+  body:has(.figma-list)::before{display:none!important;}
+  .figma-list .list-locations,.figma-list .list-sort,
+  .figma-list .list-products,.figma-list .list-bottom,
+  .figma-list .app-nav{background-color:#fff!important;}
+}
+
+/* Figma end screen 807:5372. Baseline design 375x812. */
+.scan-logo .figma-thinking-gif{display:block;width:205px;height:205px;max-width:100%;object-fit:contain;animation:none!important}
+.summary .result-top{height:330px;min-height:330px;background:#00ab9e!important;isolation:isolate}
+.summary .result-top .figma-result-bg{position:absolute;top:0;left:50%;transform:translateX(-50%);width:375px;height:330px;max-width:none;object-fit:fill;z-index:0;pointer-events:none}
+.summary .result-basket{top:69px;left:calc(50% - 56.5px);width:113px;height:94px;filter:none}
+.summary .result-basket img{width:113px;height:94px}
+.summary .result-close{top:44px;right:16px;width:40px;height:40px;border-radius:4px}
+.summary .result-top h2{top:179px;line-height:37px;font-size:31px;letter-spacing:.48px}
+.summary .result-top p{top:220px;line-height:16.55px;font-size:13.628px;letter-spacing:.06px}
+.summary .result-top small{top:258px;line-height:20.44px;font-size:13.628px}
+.summary .details{height:248px;min-height:248px;padding:32px 16px 12px;background:#f2fbfa}
+.summary .details h3{font-size:18px;line-height:22px;color:#1b1f27}
+.summary .details p{margin-top:0;font-size:14px;line-height:21px;color:#63708a}
+.summary .statgrid{margin-top:12px;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.summary .statcard{height:141px;width:auto;min-width:0;position:relative;border-radius:12px;background:#fff;box-shadow:0 3px 8px rgba(46,59,86,.10);padding:16px;overflow:hidden}
+.summary .statcard.replaced{background:#fff!important;border-radius:16px}
+.summary .statcard.replaced:before{content:"";position:absolute;top:0;left:0;width:100%;height:96px;background:#e5f7f5;clip-path:ellipse(107% 91% at 0% 0%)}
+.summary .statcard.replaced>*{position:relative;z-index:1}
+.summary .statcard:nth-child(2){padding:12.5px 16px 12px}
+.summary .statcard:nth-child(2) .stat-illustration{height:31px}
+.summary .statcard:nth-child(2) .statnumber{margin-top:5px}
+.summary .stat-illustration .figma-vegetables{width:31px;height:31px;object-fit:contain}
+.summary .figma-nutriscore{width:55px;height:33px;object-fit:contain}
+.summary .statnumber{font-size:32px;line-height:38px;color:#00ab9e}
+.summary .statdesc{font-size:14px;line-height:21px;color:#63708a}
+.summary .changes{padding:16px 16px 16px}
+.summary .changes h3{font-size:18px;line-height:22px;color:#1b1f27}
+.summary .change-row{min-height:72px;height:72px;gap:8px}
+.summary .change-row-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.summary .change-arrow{flex-shrink:0}
+.summary .result-actions{height:103px;padding:8px 16px 43px;background:#fff;border-top:1px solid #f3f4fa;box-shadow:0 -4px 12px rgba(46,59,86,.12)}
+.summary .result-actions button{height:52px;min-height:52px;background:#f47b00;border-radius:8px;font-size:16px;line-height:24px;font-weight:650}
+
+/* Mobile Safari supplies its own status bar and bottom controls. No duplicate 9:41 / black line. */
+@media(max-width:520px){
+ .device:has(.summary)>.homebar{display:none!important}
+ .screen:has(>.summary)>.status{display:none!important}
+ .summary{--end-x:clamp(12px,4.267vw,24px);min-height:0;overflow:hidden}
+ .summary-scroll{min-height:0;overflow-y:auto;overflow-x:hidden;padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))!important}
+ .summary .result-top{height:clamp(260px,76.267vw,335px)!important;min-height:clamp(260px,76.267vw,335px)!important;flex-shrink:0}
+ .summary .result-top .figma-result-bg{width:100%!important;height:auto!important;max-width:none;top:clamp(-50px,-11.733vw,-37px)!important;object-fit:contain!important}
+ .summary .result-close{top:0!important;right:var(--end-x)!important;width:40px;height:40px}
+ .summary .result-basket{top:clamp(17px,6.667vw,33px)!important;left:50%!important;transform:translateX(-50%);width:clamp(96px,30.133vw,135px)!important;height:auto!important;animation:none!important}
+ .summary .result-basket img{width:100%!important;height:auto!important;aspect-ratio:113/94;display:block}
+ .summary .result-top h2{top:clamp(118px,36vw,155px)!important;font-size:clamp(27px,8.267vw,35px)!important;line-height:1.19!important}
+ .summary .result-top p{top:clamp(152px,46.933vw,203px)!important;left:clamp(12px,3.2vw,18px)!important;right:clamp(12px,3.2vw,18px)!important;font-size:clamp(12px,3.634vw,15px)!important;line-height:1.22!important;letter-spacing:0!important;overflow-wrap:break-word}
+ .summary .result-top small{top:clamp(188px,57.067vw,245px)!important;font-size:clamp(12px,3.634vw,15px)!important;line-height:1.4!important}
+ .summary .details{box-sizing:border-box;height:auto!important;min-height:0!important;padding:32px var(--end-x) 12px!important;margin-top:-22px!important;border-radius:16px 16px 0 0}
+ .summary .details h3,.summary .details p{max-width:510px;margin-left:auto;margin-right:auto}
+ .summary .statgrid{width:100%;max-width:510px;margin:12px auto 0!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:clamp(8px,3.2vw,12px)!important}
+ .summary .statcard{box-sizing:border-box;min-width:0!important;width:100%!important;height:clamp(138px,37.6vw,162px)!important;padding:clamp(10px,4.267vw,16px)!important}
+ .summary .statcard:nth-child(2){padding-top:12.5px!important}
+ .summary .statcard.replaced:before{height:70%;clip-path:ellipse(111% 95% at 0% 0%)}
+ .summary .stat-illustration{height:32px!important}
+ .summary .stat-illustration .figma-vegetables{width:31px;height:31px}
+ .summary .statnumber{font-size:clamp(28px,8.533vw,34px)!important;line-height:1.19!important;margin-top:6px!important}
+ .summary .statdesc{font-size:clamp(12px,3.734vw,14px)!important;line-height:1.5!important;overflow-wrap:anywhere}
+ .summary .changes{padding:16px var(--end-x) 16px!important}
+ .summary .changes h3{margin-bottom:9px!important}
+ .summary .change-row{box-sizing:border-box;margin-left:calc(-1*var(--end-x))!important;margin-right:calc(-1*var(--end-x))!important;padding-left:var(--end-x)!important;padding-right:var(--end-x)!important;gap:clamp(4px,2.133vw,8px)!important;min-height:72px;height:72px;min-width:0}
+ .summary .change-row img{width:clamp(40px,12.8vw,48px)!important;height:clamp(40px,12.8vw,48px)!important}
+ .summary .change-row-name{font-size:clamp(11px,3.733vw,14px)!important;min-width:0}
+ .summary .change-row .score{width:clamp(29px,8.8vw,37px)!important;height:clamp(34px,10.667vw,44px)!important;flex-basis:clamp(29px,8.8vw,37px)!important;font-size:clamp(19px,6.4vw,26px)!important}
+ .summary .change-arrow svg{width:clamp(18px,6.4vw,24px)!important;height:clamp(18px,6.4vw,24px)!important}
+ .summary .result-actions{box-sizing:border-box;height:calc(76px + env(safe-area-inset-bottom,0px))!important;min-height:76px!important;padding:12px var(--end-x) calc(12px + env(safe-area-inset-bottom,0px))!important;align-items:center!important}
+ .summary .result-actions button{height:52px!important;min-height:52px!important;width:100%;max-width:510px;margin:0 auto}
+}
+/* Short viewports: scrolling the results keeps the CTA reachable without overlapping scores. */
+@media(max-width:520px) and (max-height:630px){.summary .result-top{height:260px!important;min-height:260px!important}.summary-scroll{padding-bottom:100px!important}}
+
+/* Restore success-screen celebration. Original Figma artwork stays in place. */
+.summary .result-confetti{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:min(100%, 330px);
+  z-index:2;
+  overflow:hidden;
+  pointer-events:none;
+}
+.summary .result-confetti i{
+  position:absolute;
+  display:block;
+  top:-20%;
+  left:var(--x);
+  width:7px;
+  height:11px;
+  background:var(--c);
+  border-radius:1px;
+  opacity:0;
+  animation:healthifyConfettiRain 2.7s cubic-bezier(.24,.57,.53,.97) var(--d) both!important;
+}
+@keyframes healthifyConfettiRain {
+  0%   {top:-20%;opacity:0;transform:translateX(0) rotate(0deg) scale(.65)}
+  12%  {opacity:.95}
+  75%  {opacity:.8}
+  100% {top:95%;opacity:0;transform:translateX(var(--dx)) rotate(550deg) scale(.9)}
+}
+.summary .result-basket,
+.summary .result-basket img{
+  transform-origin:50% 80%;
+}
+.summary .result-basket {
+  left:50%!important;
+  z-index:3;
+  animation:healthifyBasketCelebrate 1s cubic-bezier(.2,1.02,.36,1) both!important;
+}
+@keyframes healthifyBasketCelebrate {
+  0%  {opacity:0;transform:translate(-50%,48px) scale(.55) rotate(-8deg)}
+  56% {opacity:1;transform:translate(-50%,-7px) scale(1.1) rotate(2deg)}
+  76% {opacity:1;transform:translate(-50%,2px) scale(.97) rotate(-1deg)}
+  100%{opacity:1;transform:translate(-50%,0) scale(1) rotate(0)}
+}
+.summary .result-top h2 {
+  animation:healthifyTextArrive .55s ease-out .45s both;
+}
+.summary .result-top p,
+.summary .result-top small {
+  animation:healthifyTextArrive .55s ease-out .6s both;
+}
+@keyframes healthifyTextArrive {
+  from {opacity:0;transform:translateY(9px)}
+  to {opacity:1;transform:translateY(0)}
+}
+@media(prefers-reduced-motion:reduce){
+  .summary .result-confetti i{animation:none!important;opacity:0!important}
+  .summary .result-basket,
+  .summary .result-top h2,
+  .summary .result-top p,
+  .summary .result-top small{animation:none!important}
+  .summary .result-basket{transform:translateX(-50%)!important;opacity:1!important}
+}
+
+
+/* Match the assistant dim overlay into the native iOS Safari top chrome.
+   Keep the Safari bottom toolbar white and preserve the un-dimmed header when closed. */
+@media (max-width: 720px) {
+  html[data-healthify-page="list"][data-assistant-overlay="open"],
+  body[data-healthify-page="list"][data-assistant-overlay="open"] {
+    background-color: #fff!important;
+    background-image: linear-gradient(180deg,#ad9989 0px,#a68770 210px,#fff 265px)!important;
+    background-repeat: no-repeat!important;
+    background-attachment: fixed!important;
+    color-scheme:light!important;
+  }
+  html[data-assistant-overlay="open"] .safari-edge-top,
+  body[data-assistant-overlay="open"] .safari-edge-top {
+    display: block!important;
+    background-color: #ad9989!important;
+    height: max(env(safe-area-inset-top,0px),6px)!important;
+  }
+  html[data-assistant-overlay="open"] .safari-edge-bottom {background-color:#fff!important}
+  body[data-assistant-overlay="open"] .outer {background:transparent!important}
+  /* Ensure any simulated screen status row is also covered. */
+  .screen:has(.assistant-sheet)>.status.peach{filter:brightness(.67)}
+}
+
+/* Toon alle is an enabled shortcut to the final summary only after one decision. */
+.compare .show-all:disabled{color:#9ca8be!important;cursor:default;opacity:1;pointer-events:none}
+.compare .show-all:disabled svg{opacity:.8}
+.compare .show-all.has-choices{color:#f47e00;cursor:pointer}
+
+/* Thinking progress text: change every three seconds, without shifting the layout. */
+.scan-text p.scan-progress-enter{animation:scanTextEnter .28s ease-out}
+@keyframes scanTextEnter{from{opacity:.48;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.scan-text p.scan-progress-enter{animation:none}}
+
+/* Figma 807:3624: Nutri-Score on original and alternative product choices.
+   The design uses 60 × 34 px badge centred under 96 × 96 px product image.
+   Grade comes from product data, not a fixed Figma placeholder. */
+.compare .offer-photo-wrap{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;min-width:0}
+.compare .offer-photo-wrap .offer-photo{display:block;flex:none;object-fit:contain}
+.compare .choice-nutri-score{display:block;width:60px;height:34px;flex:0 0 34px;object-fit:contain}
+@media(max-height:735px){
+  .compare .choice-nutri-score{width:54px;height:31px;flex-basis:31px}
+}
+
+/* Compare pagination: center the complete dots + step group across the screen.
+   Toon alle stays right aligned independently, at every device width. */
+.compare > .cmp-nav {
+  position:relative!important;
+  width:100%!important;
+  box-sizing:border-box;
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:flex-end!important;
+  padding:12px 17px 0!important;
+}
+.compare > .cmp-nav > .nav-dots {
+  position:absolute!important;
+  top:12px!important;
+  left:50%!important;
+  right:auto!important;
+  transform:translateX(-50%)!important;
+  width:max-content!important;
+  flex:0 0 auto!important;
+  margin:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  white-space:nowrap;
+}
+.compare > .cmp-nav > .show-all {
+  position:relative;
+  z-index:1;
+  flex:0 0 auto;
+  margin-left:auto!important;
+}
+
