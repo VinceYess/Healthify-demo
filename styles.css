@@ -752,3 +752,6 @@ html[data-healthify-page="list"] .safari-edge-tint{display:block;}
   margin-left:auto!important;
 }
 
+
+/* Resultaatscherm: niets is klikbaar */
+.summary .result-actions button{pointer-events:none;cursor:default}
