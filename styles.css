@@ -755,3 +755,11 @@ html[data-healthify-page="list"] .safari-edge-tint{display:block;}
 
 /* Resultaatscherm: niets is klikbaar */
 .summary .result-actions button{pointer-events:none;cursor:default}
+
+/* Carousel: scrollen als de kaarten niet passen; bovenste kaart altijd volledig zichtbaar */
+.compare .cmp-body{overflow-x:hidden;overflow-y:auto;scrollbar-width:none;overscroll-behavior-y:contain}
+.compare .cmp-body::-webkit-scrollbar{display:none}
+.compare .cmp-carousel{height:auto;min-height:100%;justify-content:flex-start;padding-top:6px;padding-bottom:6px;box-sizing:border-box}
+.compare .cmp-carousel>:first-child{margin-top:auto}
+.compare .cmp-carousel>:last-child{margin-bottom:auto}
+.compare .cmp-carousel.swipe-preview{height:auto;min-height:100%;bottom:auto}
